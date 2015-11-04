@@ -175,25 +175,25 @@ class Multiplication():
         if first_row is None:
             return True
 
-        for i, a in enumerate(reversed(self.second)):
+        for i, (a, row) in enumerate(zip(self.second, reversed(self.rows))):
             if a == 'x':
-                if env["second"][len(self.second)-i-1] is None:
+                if env["second"].get(i) is None:
                     continue
                 else:
-                    a = env["second"][len(self.second)-i-1]
+                    a = env["second"][i]
             else:
                 a = int(a)
-            row = str(first_row * a)
+            evaluated_row = str(first_row * a)
             if len(str(first_row)) == len(self.first):
-                if not self.match_rows(self.rows[i], row, full=True):
+                if not self.match_rows(row, evaluated_row, full=True):
                     return False
             else:
                 # The following line extract the only relevant part of the row.
                 # If first_row is 70 and a is 5, then row evaluates to 350.
                 # The leftmost digit in row 3, however, is a carry out,
                 # and isn't an actual result of multiplication, and thus dropped.
-                relevant = row[-len(str(first_row)):]
-                if not self.match_rows(self.rows[i][-len(relevant):], relevant):
+                relevant = evaluated_row[-len(str(first_row)):]
+                if not self.match_rows(row[-len(relevant):], relevant):
                     return False
 
         if all([v is not None for v in env["first"].values()]) and \
