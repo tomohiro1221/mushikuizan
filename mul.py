@@ -141,15 +141,18 @@ class Multiplication():
         return a
 
     @staticmethod
-    def match_rows(r1, r2):
+    def match_rows(r1, r2, full=False):
         """
         Args:
             r1: a list of characters consisting of '0', '1', ... '9', or 'x'
             r2: a list of characters consisting of '0', '1', ... '9'
+            full: if True, r1 and r2 have to be fully matched
 
         Returns:
             True if r1 and r2 matches, False otherwise
         """
+        if full and len(r1) != len(r2):
+            return False
         for c1, c2 in zip(r1, r2):
             if c1 == 'x' or c1 == c2:
                 continue
@@ -182,9 +185,7 @@ class Multiplication():
                 a = int(a)
             row = str(first_row * a)
             if len(str(first_row)) == len(self.first):
-                if len(row) != len(self.rows[i]):
-                    return False
-                if not self.match_rows(self.rows[i][-len(row):], row):
+                if not self.match_rows(self.rows[i], row, full=True):
                     return False
             else:
                 # The following line extract the only relevant part of the row.
@@ -200,9 +201,6 @@ class Multiplication():
             first = self.get_full_row_int(self.first, env["first"])
             second = self.get_full_row_int(self.second, env["second"])
             answer = str(first * second)
-            for c1, c2 in zip(answer, self.answer):
-                if c2 == 'x':
-                    continue
-                elif c1 != c2:
-                    return False
+            if not self.match_rows(self.answer, answer, full=True):
+                return False
         return True
