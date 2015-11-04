@@ -168,6 +168,10 @@ class Multiplication():
         if env["first"].get(0) == 0 or env["second"].get(0) == 0:
             return False
 
+        first_row = self.get_partial_row_int(self.first, env["first"])
+        if first_row is None:
+            return True
+
         for i, a in enumerate(reversed(self.second)):
             if a == 'x':
                 if env["second"].get(-i-1) is None:
@@ -176,9 +180,6 @@ class Multiplication():
                     a = env["second"][-i-1]
             else:
                 a = int(a)
-            first_row = self.get_partial_row_int(self.first, env["first"])
-            if first_row is None:
-                return True
             row = str(first_row * a)
             if len(str(first_row)) == len(self.first):
                 if len(row) != len(self.rows[i]):
