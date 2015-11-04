@@ -174,10 +174,10 @@ class Multiplication():
 
         for i, a in enumerate(reversed(self.second)):
             if a == 'x':
-                if env["second"].get(-i-1) is None:
+                if env["second"][len(self.second)-i-1] is None:
                     continue
                 else:
-                    a = env["second"][-i-1]
+                    a = env["second"][len(self.second)-i-1]
             else:
                 a = int(a)
             row = str(first_row * a)
