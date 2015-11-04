@@ -11,18 +11,6 @@ def parse_args():
     return args.col_mult, args.verbose
 
 
-def print_env(env):
-    s = ""
-    counter = 1
-    for k in sorted(env["first"].keys()):
-        s += "{:>12}".format("X{:02}: {:>5}, ".format(counter, env["first"][k]))
-        counter += 1
-    for k in sorted(env["second"].keys()):
-        s += "{:>12}".format("X{:02}: {:>5}, ".format(counter, env["second"][k]))
-        counter += 1
-    print s
-
-
 def parse_col_mult(s):
     separated = s.split("|")
     a1, a2 = separated[0].split(" ")

@@ -1,24 +1,26 @@
 from copy import deepcopy
 
 
-def print_env(env):
+def pretty_format_env(env):
     """
-    Prints an env in a pretty format.
+    Args:
+        env: a hash environment
+
+    Returns:
+        A pretty formatted env
     """
-    s = ""
+    s = []
     counter = 1
-    for k in sorted(env["first"].keys()):
-        s += "{:>12}".format("X{:02}: {:>5}, ".format(counter, env["first"][k]))
-        counter += 1
-    for k in sorted(env["second"].keys()):
-        s += "{:>12}".format("X{:02}: {:>5}, ".format(counter, env["second"][k]))
-        counter += 1
-    print s
+    for r in ["first", "second"]:
+        for k in sorted(env[r].keys()):
+            s.append("{:>12}".format("X{:02}: {:>5}".format(counter, env[r][k])))
+            counter += 1
+    return ",".join(s)
 
 
 def _solve(mul, env, last, precedence, logging):
     if logging:
-        print_env(env)
+        print pretty_format_env(env)
     if mul.is_sufficient(env):
         if len(precedence) == last:
             return env
