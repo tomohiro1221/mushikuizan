@@ -188,9 +188,9 @@ class Multiplication():
                 if not self.match_rows(row, evaluated_row, full=True):
                     return False
             else:
-                # The following line extract the only relevant part of the row.
-                # If first_row is 70 and a is 5, then row evaluates to 350.
-                # The leftmost digit in row 3, however, is a carry out,
+                # The following line extracts the only relevant part of the row.
+                # For instance, when first_row is 70 and a is 5, evaluated_row becoming 350,
+                # the leftmost digit in evaluated_row '3' is a carry out,
                 # and isn't an actual result of multiplication, and thus dropped.
                 relevant = evaluated_row[-len(str(first_row)):]
                 if not self.match_rows(row[-len(relevant):], relevant):
