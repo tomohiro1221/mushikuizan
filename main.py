@@ -1,6 +1,6 @@
 from argparse import ArgumentParser
-from mul import Multiplication
-from solver import solve
+from mushikuizan.mul import Multiplication
+from mushikuizan.solver import solve
 
 
 def parse_args():
@@ -21,7 +21,6 @@ def parse_col_mult(s):
 if __name__ == '__main__':
     col_mult, is_verbose = parse_args()
     first, second, rows, answer = parse_col_mult(col_mult)
-    print first, second, rows, answer
     mul = Multiplication(first, second, rows, answer)
     print "Solving..."
     print mul
