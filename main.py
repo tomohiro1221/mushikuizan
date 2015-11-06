@@ -23,7 +23,7 @@ if __name__ == '__main__':
     mul = Multiplication(first, second, rows, answer)
     print "Solving..."
     print mul
-    print "Answer:"
     env = mul.solve(is_verbose)
     mul.apply_env(env)
+    print "\nAnswer:"
     print mul

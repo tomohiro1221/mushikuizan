@@ -237,7 +237,7 @@ class Multiplication():
             for i in range(10):
                 env_copy = deepcopy(env)
                 env_copy[precedence[last][0]][precedence[last][1]] = i
-                returned = self._solve( env_copy, last + 1, precedence, logging)
+                returned = self._solve(env_copy, last + 1, precedence, logging)
                 if returned is not None:
                     return returned
         else:
