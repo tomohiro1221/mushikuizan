@@ -1,6 +1,5 @@
 from argparse import ArgumentParser
 from mushikuizan.mul import Multiplication
-from mushikuizan.solver import solve
 
 
 def parse_args():
@@ -24,7 +23,6 @@ if __name__ == '__main__':
     mul = Multiplication(first, second, rows, answer)
     print "Solving..."
     print mul
-    solved_env = solve(mul, is_verbose)
     print "Answer:"
-    solved = Multiplication(first, second, rows, answer, solved_env)
-    print solved
+    mul.solve()
+    print mul

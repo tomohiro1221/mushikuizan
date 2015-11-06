@@ -1,3 +1,6 @@
+from copy import deepcopy
+
+
 class Multiplication():
     def __init__(self, first, second, rows, answer, env=None):
         assert len(second) == len(rows)
@@ -80,6 +83,23 @@ class Multiplication():
         """
         return {"first": {i: None for i, c in enumerate(self.first) if c == 'x'},
                 "second": {i: None for i, c in enumerate(self.second) if c == 'x'}}
+
+    @staticmethod
+    def pretty_format_env(env):
+        """
+        Args:
+            env: a hash environment
+
+        Returns:
+            A pretty formatted env
+        """
+        s = []
+        counter = 1
+        for r in ["first", "second"]:
+            for k in sorted(env[r].keys()):
+                s.append("{:>12}".format("X{:02}: {:>5}".format(counter, env[r][k])))
+                counter += 1
+        return ",".join(s)
 
     @staticmethod
     def get_full_row_int(row, row_env):
@@ -204,3 +224,35 @@ class Multiplication():
             if not self.match_rows(self.answer, answer, full=True):
                 return False
         return True
+
+    def _solve(self, env, last, precedence, logging):
+        if logging:
+            print pretty_format_env(env)
+        if self.is_sufficient(env):
+            if len(precedence) == last:
+                return env
+            for i in range(10):
+                env_copy = deepcopy(env)
+                env_copy[precedence[last][0]][precedence[last][1]] = i
+                returned = self._solve( env_copy, last + 1, precedence, logging)
+                if returned is not None:
+                    return returned
+        else:
+            return None
+
+    def solve(self, logging=False):
+        """
+        Args:
+            self: a Multiplication instance
+
+        Returns:
+            A full sufficient environment. None if there's no such environment.
+        """
+        env = self.configurable_env()
+        unknowns_first = [("first", k, len(self.first) - k) for k in env["first"].keys()]
+        unknowns_second = [("second", k, len(self.second) - k) for k in env["second"].keys()]
+        precedence = sorted(unknowns_first + unknowns_second, key=lambda x: x[2])
+        precedence = [(elem[0], elem[1]) for elem in precedence]
+        if not precedence:
+            return
+        return self._solve(env, 0, precedence, logging)
