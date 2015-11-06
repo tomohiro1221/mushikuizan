@@ -4,21 +4,14 @@ from copy import deepcopy
 class Multiplication():
     def __init__(self, first, second, rows, answer, env=None):
         assert len(second) == len(rows)
-        if env is None:
-            self.first = list(first)
-            self.second = list(second)
-            self.rows = [list(row) for row in rows]
-            self.answer = list(answer)
-        else:
-            f = self.get_full_row_int(first, env["first"])
-            s = self.get_full_row_int(second, env["second"])
-            self.first = list(str(f))
-            self.second = list(str(s))
-            self.rows = []
-            for c in reversed(str(s)):
-                self.rows.append(list(str(int(c) * f)))
-            self.answer = list(str(f * s))
+        self.first = list(first)
+        self.second = list(second)
+        self.rows = [list(row) for row in rows]
+        self.answer = list(answer)
         self.nb_col = len(self.answer)
+        self.env = env
+        if env is not None:
+            self.apply_env(env)
 
     def __str__(self):
         """
@@ -52,6 +45,16 @@ class Multiplication():
         row_str, counter = self.get_row_str(self.answer, counter, 0)
         s += row_str
         return s
+
+    def apply_env(self, env):
+        f = self.get_full_row_int(self.first, env["first"])
+        s = self.get_full_row_int(self.second, env["second"])
+        self.first = list(str(f))
+        self.second = list(str(s))
+        self.rows = []
+        for c in reversed(str(s)):
+            self.rows.append(list(str(int(c) * f)))
+        self.answer = list(str(f * s))
 
     def get_row_str(self, row, counter, shift):
         """
@@ -227,7 +230,7 @@ class Multiplication():
 
     def _solve(self, env, last, precedence, logging):
         if logging:
-            print pretty_format_env(env)
+            print self.pretty_format_env(env)
         if self.is_sufficient(env):
             if len(precedence) == last:
                 return env

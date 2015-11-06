@@ -24,5 +24,6 @@ if __name__ == '__main__':
     print "Solving..."
     print mul
     print "Answer:"
-    mul.solve()
+    env = mul.solve(is_verbose)
+    mul.apply_env(env)
     print mul
